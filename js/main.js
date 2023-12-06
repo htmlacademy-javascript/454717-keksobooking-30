@@ -49,8 +49,8 @@ const createRandomOffer = (currentIndex) => {
   return offer;
 };
 
-const createAnnouncementsData = (hotelsCount = 10) => {
-  const announcementsData = new Array(hotelsCount).fill(1).map((start, index) => ({
+const createAnnouncementsData = (announcementsCount = 10) => {
+  const announcementsData = new Array(announcementsCount).fill(1).map((start, index) => ({
     author: createRandomAuthor(start + index),
     offer: createRandomOffer(index),
     location: createRandomLocation(),
