@@ -14,7 +14,7 @@ const createRandomLocation = () => ({
   lng: getRandomFloat(MIN_LONGITUDE, MAX_LONGITUDE).toFixed(5),
 });
 
-const createRandomOffer = (currentIndex) => {
+const createRandomOffer = (currentIndex, location) => {
   const titles = ['Предложение 1', 'Предложение 2', 'Предложение 3', 'Предложение 4', 'Предложение 5', 'Предложение 6', 'Предложение 7', 'Предложение 8', 'Предложение 9', 'Предложение 10'];
   const types = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
   const checkinHours = ['12:00', '13:00', '14:00'];
@@ -25,7 +25,7 @@ const createRandomOffer = (currentIndex) => {
 
   const offer = {
     title: titles[currentIndex],
-    address: createRandomLocation(),
+    address: location,
     price: getRandomInteger(0, 100000),
     type: types[getRandomInteger(0, 4)],
     rooms: getRandomInteger(1, 100),
@@ -40,11 +40,14 @@ const createRandomOffer = (currentIndex) => {
 };
 
 const createAnnouncementsData = (announcementsCount = 10) => {
-  const announcementsData = new Array(announcementsCount).fill(1).map((start, index) => ({
-    author: createRandomAuthor(start + index),
-    offer: createRandomOffer(index),
-    location: createRandomLocation(),
-  }));
+  const announcementsData = new Array(announcementsCount).fill(1).map((start, index) => {
+    const location = createRandomLocation();
+    return {
+      author: createRandomAuthor(start + index),
+      offer: createRandomOffer(index, location),
+      location: location,
+    };
+  });
   return announcementsData;
 };
 
