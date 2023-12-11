@@ -1,12 +1,17 @@
 import { getRandomFloat, getRandomInteger, getRandomNumberOfRandomElements } from './utilities';
 
+const MIN_LATITUDE = 35.65;
+const MAX_LATITUDE = 35.7;
+const MIN_LONGITUDE = 35.65;
+const MAX_LONGITUDE = 35.7;
+
 const createRandomAuthor = (currentIndex) => ({
   avatar: `img/avatars/user${currentIndex.toString().padStart(2, '0')}.png`,
 });
 
 const createRandomLocation = () => ({
-  lat: getRandomFloat(35.65, 35.7).toFixed(5),
-  lng: getRandomFloat(139.7, 139.8).toFixed(5),
+  lat: getRandomFloat(MIN_LATITUDE, MAX_LATITUDE).toFixed(5),
+  lng: getRandomFloat(MIN_LONGITUDE, MAX_LONGITUDE).toFixed(5),
 });
 
 const createRandomOffer = (currentIndex) => {
@@ -21,17 +26,16 @@ const createRandomOffer = (currentIndex) => {
   const offer = {
     title: titles[currentIndex],
     address: createRandomLocation(),
-    price: getRandomInteger(100, 10000),
+    price: getRandomInteger(0, 100000),
     type: types[getRandomInteger(0, 4)],
-    rooms: getRandomInteger(1, 4),
-    guests: getRandomInteger(1, 10),
+    rooms: getRandomInteger(1, 100),
+    guests: getRandomInteger(1, 100),
     checkin: checkinHours[getRandomInteger(0, 2)],
     checkout: checkoutHours[getRandomInteger(0, 2)],
     features: getRandomNumberOfRandomElements(features),
     description: descriptions[currentIndex],
     photos: getRandomNumberOfRandomElements(photoUrls),
   };
-
   return offer;
 };
 

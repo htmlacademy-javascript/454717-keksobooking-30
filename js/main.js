@@ -1,3 +1,4 @@
 import { createAnnouncementsData } from './data';
+import { renderMap } from './map/main';
 
-void(createAnnouncementsData());
+renderMap(createAnnouncementsData());
