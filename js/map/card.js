@@ -31,17 +31,16 @@ const renderPhotos = (card, photos) => {
 
 const createCard = (properties) => {
   const {offer, author} = properties;
-  const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = offer;
   const card = template.content.querySelector('.popup').cloneNode(true);
-  card.querySelector('.popup__title').textContent = title;
-  card.querySelector('.popup__text--address').textContent = `${address.lat} ${address.lng}`;
-  card.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
-  card.querySelector('.popup__type').textContent = TYPES[type];
-  card.querySelector('.popup__text--capacity').textContent = `${rooms} комнаты для ${guests} гостей`;
-  card.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
-  card.querySelector('.popup__description').textContent = description;
-  renderFeatures(card, features);
-  renderPhotos(card, photos);
+  card.querySelector('.popup__title').textContent = offer.title;
+  card.querySelector('.popup__text--address').textContent = `${offer.address.lat} ${offer.address.lng}`;
+  card.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  card.querySelector('.popup__type').textContent = TYPES[offer.type];
+  card.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  card.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  card.querySelector('.popup__description').textContent = offer.description;
+  renderFeatures(card, offer.features);
+  renderPhotos(card, offer.photos);
   card.querySelector('.popup__avatar').src = author.avatar;
   return card;
 };
