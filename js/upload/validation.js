@@ -16,22 +16,17 @@ const price = {
   }
 };
 
-const roomСapacity = {
-  1:'для 1 гостя',
-  2:'для 2 гостей',
-  3:'для 3 гостей',
-  100:'не для гостей'
+const messages = {
+  required: 'Это обязательное поле',
+  capacity: 'Количество комнат не соответствует количеству гостей'
 };
 
-const REQUIRED_MESSAGE = 'Это обязательное поле';
-
 const form = document.querySelector('.ad-form');
-
 const inputs = form.querySelectorAll('input');
 
 inputs.forEach((input) => {
   if (input.hasAttribute('required')) {
-    input.setAttribute('data-pristine-required-message', REQUIRED_MESSAGE);
+    input.setAttribute('data-pristine-required-message', messages.required);
   }
 });
 
@@ -71,21 +66,23 @@ pristine.addValidator (
   getPriceErrorMessage
 );
 
-const validateCapacity = (value) => {
-  const currentRoomNumber = form.querySelector('[name="rooms"] [selected]').value;
-  console.log(currentRoomNumber);
-  return false;
-};
-
-const getCapacityErrorMessage = () => {
-  console.log('hsfsj');
-  return 'Выберите большее количество комнат';
+const isNumberOfRoomsFits = (numberOfRooms, numberOfGuests) => {
+  numberOfRooms = Number(numberOfRooms);
+  numberOfGuests = Number(numberOfGuests);
+  const isNumberOfGuestsFits = numberOfRooms >= 100 ? numberOfGuests === 0 : numberOfGuests <= numberOfRooms;
+  return numberOfGuests === 0 ? numberOfRooms >= 100 : isNumberOfGuestsFits;
 };
 
 pristine.addValidator (
   form.capacity,
-  validateCapacity,
-  getCapacityErrorMessage
+  (numberOfGuests) => isNumberOfRoomsFits(form.rooms.value, numberOfGuests),
+  messages.capacity
+);
+
+pristine.addValidator (
+  form.rooms,
+  (numberOfRooms) => isNumberOfRoomsFits(numberOfRooms, form.capacity.value),
+  messages.capacity
 );
 
 form.addEventListener('change', (event) => {
@@ -97,6 +94,9 @@ form.addEventListener('change', (event) => {
       break;
     case 'rooms':
       pristine.validate(form.capacity);
+      break;
+    case 'capacity':
+      pristine.validate(form.rooms);
       break;
   }
 });
