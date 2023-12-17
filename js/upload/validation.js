@@ -86,10 +86,9 @@ pristine.addValidator (
 );
 
 form.addEventListener('change', (event) => {
-  const currentType = form.querySelector('[name="type"] :checked');
   switch (event.target.name) {
     case 'type':
-      form.price.placeholder = price.min[currentType.value];
+      form.price.placeholder = price.min[event.target.value];
       pristine.validate(form.price);
       break;
     case 'rooms':
