@@ -33,7 +33,7 @@ inputs.forEach((input) => {
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__element--invalid',
+  errorClass: 'ad-form__element--invalid',
 });
 
 const validateLength = (text) => text.length >= TITLE_LENGTH.min && text.length <= TITLE_LENGTH.max;
@@ -66,11 +66,15 @@ pristine.addValidator (
   getPriceErrorMessage
 );
 
-const isNumberOfRoomsFits = (numberOfRooms, numberOfGuests) => {
+const isNumberOfRoomsFits = (numberOfRooms, numberOfGuests, notForGuestsNumber = 100) => {
   numberOfRooms = Number(numberOfRooms);
   numberOfGuests = Number(numberOfGuests);
-  const isNumberOfGuestsFits = numberOfRooms >= 100 ? numberOfGuests === 0 : numberOfGuests <= numberOfRooms;
-  return numberOfGuests === 0 ? numberOfRooms >= 100 : isNumberOfGuestsFits;
+  const isNumberOfGuestsFits = numberOfRooms >= notForGuestsNumber
+    ? numberOfGuests === 0
+    : numberOfGuests <= numberOfRooms;
+  return numberOfGuests === 0
+    ? numberOfRooms >= notForGuestsNumber
+    : isNumberOfGuestsFits;
 };
 
 pristine.addValidator (
@@ -85,6 +89,10 @@ pristine.addValidator (
   messages.capacity
 );
 
+const synchronizeTime = (selectNameFirst, selectNameSecond) => {
+  form[selectNameFirst].value = form[selectNameSecond].value;
+};
+
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'type':
@@ -96,6 +104,12 @@ form.addEventListener('change', (event) => {
       break;
     case 'capacity':
       pristine.validate(form.rooms);
+      break;
+    case 'timein':
+      synchronizeTime('timeout', 'timein');
+      break;
+    case 'timeout':
+      synchronizeTime('timein', 'timeout');
       break;
   }
 });
