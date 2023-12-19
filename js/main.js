@@ -1,5 +1,11 @@
 import { createAnnouncementsData } from './data';
-import { renderMap } from './map/main';
-import './upload/main';
+import { initMap, activateMap } from './map/main';
+import { activateForm } from './upload/main';
 
-renderMap(createAnnouncementsData());
+document.addEventListener('mapLoading', () => {
+  activateMap(createAnnouncementsData());
+  activateForm();
+});
+
+initMap();
+
