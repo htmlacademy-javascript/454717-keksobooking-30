@@ -2,8 +2,8 @@ import { getRandomFloat, getRandomInteger, getRandomNumberOfRandomElements } fro
 
 const MIN_LATITUDE = 35.65;
 const MAX_LATITUDE = 35.7;
-const MIN_LONGITUDE = 35.65;
-const MAX_LONGITUDE = 35.7;
+const MIN_LONGITUDE = 139.7;
+const MAX_LONGITUDE = 139.8;
 
 const createRandomAuthor = (currentIndex) => ({
   avatar: `img/avatars/user${currentIndex.toString().padStart(2, '0')}.png`,
