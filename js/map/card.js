@@ -7,7 +7,6 @@ const TYPES = {
 };
 
 const template = document.querySelector('#card');
-const container = document.querySelector('#map-canvas');
 
 const renderFeatures = (features, featuresData) => {
   features.forEach((featureItem) => {
@@ -63,8 +62,4 @@ const createCard = (properties) => {
   return card;
 };
 
-const renderCard = (currentCard) => {
-  container.append(createCard(currentCard));
-};
-
-export { renderCard };
+export { createCard };

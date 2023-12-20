@@ -1,15 +1,16 @@
 import { leaflet } from './leaflet';
+import { createCard } from './card';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const ZOOM = 10;
+const ZOOM = 12;
 const iconConfig = {
   url: '../img/main-pin.svg',
-  width: 52,
-  height: 52,
-  anchorX: 26,
-  anchorY: 52,
+  width: {main: 52, normal: 40},
+  height: {main: 52, normal: 40},
+  anchorX: {main: 26, normal: 20},
+  anchorY: {main: 52, normal: 40},
 };
 const cityCenter = {
   lat: 35.68306,
@@ -36,8 +37,8 @@ leaflet.tileLayer(TILE_LAYER, {
 
 const mainPinIcon = leaflet.icon({
   iconUrl: iconConfig.url,
-  iconSize: [iconConfig.width, iconConfig.height],
-  iconAnchor: [iconConfig.anchorX, iconConfig.anchorY],
+  iconSize: [iconConfig.width.main, iconConfig.height.main],
+  iconAnchor: [iconConfig.anchorX.main, iconConfig.anchorY.main],
 });
 
 const mainPinMarker = leaflet.marker(startCoordinate, {
@@ -47,7 +48,9 @@ const mainPinMarker = leaflet.marker(startCoordinate, {
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (event) => {
-  console.log(event.target.getLatLng());
+  document.dispatchEvent(new CustomEvent('settingCoordinates', {
+    detail: event.target.getLatLng()
+  }));
 });
 
 const resetMap = () => {
@@ -55,4 +58,33 @@ const resetMap = () => {
   map.setView(startCoordinate, ZOOM);
 };
 
-export { initMap, resetMap};
+const icon = leaflet.icon({
+  iconUrl: iconConfig.url,
+  iconSize: [iconConfig.width.normal, iconConfig.height.normal],
+  iconAnchor: [iconConfig.anchorX.normal, iconConfig.anchorY.normal],
+});
+
+const createMarker = (point, data) => {
+  const {lat, lng} = point;
+  const marker = leaflet.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon,
+    },
+  );
+
+  marker
+    .addTo(map)
+    .bindPopup(createCard(data));
+};
+
+const createMarkers = (announcements) => {
+  announcements.forEach((announcement) => {
+    createMarker(announcement.location, announcement);
+  });
+};
+
+export { initMap, resetMap, createMarkers};

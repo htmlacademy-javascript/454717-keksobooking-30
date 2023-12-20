@@ -1,12 +1,11 @@
-import { renderCard } from './card.js';
 import { activateFilters, deactivateFilters } from './filters.js';
-import { initMap } from './map.js';
+import { initMap, createMarkers } from './map.js';
 
 deactivateFilters();
 
 const activateMap = (data) => {
-  // renderCard(data[3]);
   activateFilters();
+  createMarkers(data);
 };
 
 export { initMap, activateMap };
