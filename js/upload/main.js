@@ -1,5 +1,9 @@
 import { activateForm, deactivateForm } from './activation';
 import { checkValidity, resetValidity } from './validation';
+import { activateSlider, deactivateSlider } from './price.js';
+
+deactivateForm();
+deactivateSlider();
 
 const form = document.querySelector('.ad-form');
 // const submitButton = document.querySelector('ad-form__submit');
@@ -26,4 +30,4 @@ const setCoordinates = ({lat, lng}) => {
   form.address.dispatchEvent(new Event('change', {bubbles: true}));
 };
 
-export { activateForm, deactivateForm, setCoordinates };
+export { activateForm, activateSlider, setCoordinates };

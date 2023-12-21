@@ -113,6 +113,9 @@ form.addEventListener('change', (event) => {
     case 'address':
       pristine.validate(form.address);
       break;
+    case 'price':
+      pristine.validate(form.price);
+      break;
     case 'timein':
       synchronizeTime('timeout', 'timein');
       break;

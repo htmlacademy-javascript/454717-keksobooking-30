@@ -1,17 +1,15 @@
-import { createAnnouncementsData } from './data';
+import { activateForm, activateSlider, setCoordinates } from './upload/main';
 import { initMap, activateMap } from './map/main';
-import { activateForm, deactivateForm, setCoordinates } from './upload/main';
+import { createAnnouncementsData } from './data';
 
-deactivateForm();
-
-document.addEventListener('mapLoading', () => {
+document.addEventListener('mapLoaded', () => {
   activateMap(createAnnouncementsData());
   activateForm();
+  activateSlider();
 });
 
-document.addEventListener('settingCoordinates', (event) => {
+document.addEventListener('coordinatesSelected', (event) => {
   setCoordinates(event.detail);
 });
 
 initMap();
-
