@@ -28,6 +28,7 @@ slider.noUiSlider.on('slide', () => {
 });
 
 inputPrice.addEventListener('change', () => {
+  console.log(inputPrice.value);
   slider.noUiSlider.set(inputPrice.value);
 });
 
