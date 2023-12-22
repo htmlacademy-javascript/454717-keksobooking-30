@@ -1,0 +1,106 @@
+import { leaflet } from './leaflet';
+import { createCard } from './card';
+
+const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+const ZOOM = 12;
+const iconConfig = {
+  url: {main: '../img/main-pin.svg', normal: '../img/pin.svg'},
+  width: {main: 52, normal: 40},
+  height: {main: 52, normal: 40},
+  anchorX: {main: 26, normal: 20},
+  anchorY: {main: 52, normal: 40},
+};
+const cityCenter = {
+  lat: 35.68306,
+  lng: 139.75436,
+};
+const startCoordinate = {
+  lat: 35.68306,
+  lng: 139.75436,
+};
+
+let mapObject;
+
+const getMap = () => {
+  mapObject = mapObject ?? leaflet.map('map-canvas');
+  return mapObject;
+};
+
+const initMap = () => {
+  const map = getMap();
+  map.setView(cityCenter, ZOOM);
+
+  leaflet.tileLayer(TILE_LAYER, {
+    attribution: COPYRIGHT
+  }).on('load', () => {
+    document.dispatchEvent(new Event('mapLoaded'));
+  }).addTo(map);
+};
+
+const mainPinIcon = leaflet.icon({
+  iconUrl: iconConfig.url.main,
+  iconSize: [iconConfig.width.main, iconConfig.height.main],
+  iconAnchor: [iconConfig.anchorX.main, iconConfig.anchorY.main],
+});
+
+let mainPinMarkerObject;
+
+const getMainPinMarker = () => {
+  mainPinMarkerObject = mainPinMarkerObject ?? leaflet.marker(startCoordinate, {
+    draggable: true,
+    icon: mainPinIcon,
+  });
+  return mainPinMarkerObject;
+};
+
+const setMainPinMarker = () => {
+  getMainPinMarker().addTo(getMap());
+
+  getMainPinMarker().on('moveend', (event) => {
+    document.dispatchEvent(new CustomEvent('coordinatesSelected', {
+      detail: event.target.getLatLng()
+    }));
+  });
+};
+
+const resetMap = () => {
+  getMainPinMarker().setLatLng(startCoordinate);
+  getMap().setView(startCoordinate, ZOOM);
+};
+
+let iconObject;
+const getIcon = () => {
+  iconObject = iconObject ?? leaflet.icon({
+    iconUrl: iconConfig.url.normal,
+    iconSize: [iconConfig.width.normal, iconConfig.height.normal],
+    iconAnchor: [iconConfig.anchorX.normal, iconConfig.anchorY.normal],
+  });
+  return iconObject;
+};
+
+const createMarker = (point, data) => {
+  const {lat, lng} = point;
+  const marker = leaflet.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: getIcon(),
+    },
+  );
+
+  marker
+    .addTo(getMap())
+    .bindPopup(createCard(data));
+};
+
+const createMarkers = (announcements) => {
+  announcements.forEach((announcement) => {
+    createMarker(announcement.location, announcement);
+  });
+};
+
+export { initMap, resetMap, createMarkers, setMainPinMarker};

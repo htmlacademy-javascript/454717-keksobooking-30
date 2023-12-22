@@ -1,5 +1,19 @@
+import { activateForm, activateSlider, setCoordinates } from './upload/main';
+import { initMap, activateMap } from './map/main';
 import { createAnnouncementsData } from './data';
-import { renderMap } from './map/main';
-import './upload/main';
 
-renderMap(createAnnouncementsData());
+let isMapLoaded = false;
+document.addEventListener('mapLoaded', () => {
+  if (!isMapLoaded) {
+    activateMap(createAnnouncementsData());
+    activateForm();
+    activateSlider();
+    isMapLoaded = true;
+  }
+});
+
+document.addEventListener('coordinatesSelected', (event) => {
+  setCoordinates(event.detail);
+});
+
+initMap();

@@ -1,11 +1,12 @@
-import { renderCard } from './render-card.js';
 import { activateFilters, deactivateFilters } from './filters.js';
+import { initMap, createMarkers, setMainPinMarker } from './map.js';
 
 deactivateFilters();
 
-const renderMap = (data) => {
-  renderCard(data[3]);
+const activateMap = (data) => {
   activateFilters();
+  setMainPinMarker();
+  createMarkers(data);
 };
 
-export { renderMap };
+export { initMap, activateMap };

@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
+  <script src="vendor/leaflet/leaflet.js" defer></script>
   <script src = "js/main.js" type="module"></script>
 </head>
 <body>
@@ -20,7 +22,8 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas" stile = "width: 100%;
+      height: 500px;"></div>
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -92,7 +95,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" required>
+          <input id="address" name="address" type="text" required readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -229,6 +232,5 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
-
 </body>
 </html>
