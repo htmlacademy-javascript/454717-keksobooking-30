@@ -21,9 +21,14 @@ noUiSlider.create(slider, {
   }
 });
 
+
 slider.noUiSlider.on('slide', () => {
   inputPrice.value = slider.noUiSlider.get();
   inputPrice.dispatchEvent(new Event('change', {bubbles: true}));
+});
+
+inputPrice.addEventListener('change', () => {
+  slider.noUiSlider.set(inputPrice.value);
 });
 
 const deactivateSlider = () => {
