@@ -55,10 +55,7 @@ pristine.addValidator (
   `Максимальное значение не должно превышать ${price.max} руб`
 );
 
-const validatePrice = (value) => {
-  const currentType = form.querySelector('[name="type"] :checked');
-  return value >= price.min[currentType.value];
-};
+const validatePrice = (value) => value >= price.min[form.type.value];
 
 const getPriceErrorMessage = () => {
   const currentType = form.querySelector('[name="type"] :checked');
