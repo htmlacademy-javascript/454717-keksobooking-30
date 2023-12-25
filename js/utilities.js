@@ -1,3 +1,12 @@
+const request = async (url, options) => {
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+  return response.json();
+};
+
 const getRandomFloat = (min, max) => Math.random() * (max - min) + min;
 
 const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -13,4 +22,4 @@ const getRandomNumberOfRandomElements = (sequence) => {
   return result.splice(0, randomLength);
 };
 
-export { getRandomFloat, getRandomInteger, getRandomNumberOfRandomElements };
+export { getRandomFloat, getRandomInteger, getRandomNumberOfRandomElements, request};
