@@ -5,7 +5,7 @@ const slider = document.querySelector('.ad-form__slider');
 const inputPrice = document.querySelector('#price');
 
 const MIN_PRICE = 0;
-const MAX_PRICE = 10000;
+const MAX_PRICE = 100000;
 
 noUiSlider.create(slider, {
   range: {
@@ -27,8 +27,7 @@ slider.noUiSlider.on('slide', () => {
   inputPrice.dispatchEvent(new Event('change', {bubbles: true}));
 });
 
-inputPrice.addEventListener('change', () => {
-  console.log(inputPrice.value);
+inputPrice.addEventListener('input', () => {
   slider.noUiSlider.set(inputPrice.value);
 });
 
