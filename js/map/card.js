@@ -42,7 +42,7 @@ const createCard = (properties) => {
 
   const {offer, author} = properties;
   title.textContent = offer.title;
-  address.textContent = `${offer.address.lat} ${offer.address.lng}`;
+  address.textContent = offer.address;
   price.textContent = `${offer.price} ₽/ночь`;
   type.textContent = TYPES[offer.type];
   capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;

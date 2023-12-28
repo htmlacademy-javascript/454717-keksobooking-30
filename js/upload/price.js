@@ -21,7 +21,6 @@ noUiSlider.create(slider, {
   }
 });
 
-
 slider.noUiSlider.on('slide', () => {
   inputPrice.value = slider.noUiSlider.get();
   inputPrice.dispatchEvent(new Event('change', {bubbles: true}));
@@ -39,4 +38,8 @@ const activateSlider = () => {
   slider.removeAttribute('disabled');
 };
 
-export { deactivateSlider, activateSlider };
+const resetSlider = () => {
+  slider.noUiSlider.set(MIN_PRICE);
+};
+
+export { resetSlider, deactivateSlider, activateSlider };

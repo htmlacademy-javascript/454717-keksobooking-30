@@ -12,10 +12,7 @@ const iconConfig = {
   anchorX: {main: 26, normal: 20},
   anchorY: {main: 52, normal: 40},
 };
-const cityCenter = {
-  lat: 35.68306,
-  lng: 139.75436,
-};
+
 const startCoordinate = {
   lat: 35.68306,
   lng: 139.75436,
@@ -30,7 +27,7 @@ const getMap = () => {
 
 const initMap = () => {
   const map = getMap();
-  map.setView(cityCenter, ZOOM);
+  map.setView(startCoordinate, ZOOM);
 
   leaflet.tileLayer(TILE_LAYER, {
     attribution: COPYRIGHT
@@ -55,19 +52,19 @@ const getMainPinMarker = () => {
   return mainPinMarkerObject;
 };
 
+const coordinateSelectionEvent = new CustomEvent('coordinateSelected', {
+  detail: startCoordinate
+});
+
 const setMainPinMarker = () => {
   getMainPinMarker().addTo(getMap());
+  document.dispatchEvent(coordinateSelectionEvent);
 
   getMainPinMarker().on('moveend', (event) => {
-    document.dispatchEvent(new CustomEvent('coordinatesSelected', {
+    document.dispatchEvent(new CustomEvent('coordinateSelected', {
       detail: event.target.getLatLng()
     }));
   });
-};
-
-const resetMap = () => {
-  getMainPinMarker().setLatLng(startCoordinate);
-  getMap().setView(startCoordinate, ZOOM);
 };
 
 let iconObject;
@@ -101,6 +98,12 @@ const createMarkers = (announcements) => {
   announcements.forEach((announcement) => {
     createMarker(announcement.location, announcement);
   });
+};
+
+const resetMap = () => {
+  getMainPinMarker().setLatLng(startCoordinate);
+  getMap().setView(startCoordinate, ZOOM);
+  document.dispatchEvent(coordinateSelectionEvent);
 };
 
 export { initMap, resetMap, createMarkers, setMainPinMarker};
