@@ -1,19 +1,41 @@
-import { activateForm, activateSlider, setCoordinates } from './upload/main';
-import { initMap, activateMap } from './map/main';
-import { createAnnouncementsData } from './data';
+import { activateForm, activateSlider, setCoordinates, resetForm, setSubmitDisabled } from './upload/main';
+import { initMap, activateMap, resetMap } from './map/main';
+import { request } from './api';
+import { renderStatus } from './status';
+
+const BASE_URL = 'https://30.javascript.pages.academy/keksobooking';
 
 let isMapLoaded = false;
-document.addEventListener('mapLoaded', () => {
+const onDocumentMapLoaded = async () => {
   if (!isMapLoaded) {
-    activateMap(createAnnouncementsData());
+    try {
+      activateMap(await request(`${BASE_URL}/data`));
+    } catch {
+      renderStatus('data-error');
+    }
     activateForm();
     activateSlider();
     isMapLoaded = true;
   }
+};
+
+document.addEventListener('mapLoaded', onDocumentMapLoaded);
+document.addEventListener('coordinateSelected', (event) => {
+  setCoordinates(event.detail);
 });
 
-document.addEventListener('coordinatesSelected', (event) => {
-  setCoordinates(event.detail);
+document.addEventListener('formdata', async (event) => {
+  try {
+    setSubmitDisabled(true);
+    await request(BASE_URL, {method: 'post', body: event.formData});
+    resetForm();
+    resetMap();
+    renderStatus('success');
+  } catch {
+    renderStatus('error');
+  } finally {
+    setSubmitDisabled(false);
+  }
 });
 
 initMap();

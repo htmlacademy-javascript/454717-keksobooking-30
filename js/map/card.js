@@ -42,22 +42,26 @@ const createCard = (properties) => {
 
   const {offer, author} = properties;
   title.textContent = offer.title;
-  address.textContent = `${offer.address.lat} ${offer.address.lng}`;
+  address.textContent = offer.address;
   price.textContent = `${offer.price} ₽/ночь`;
   type.textContent = TYPES[offer.type];
   capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  if (offer.description.length) {
+  if (offer.description?.length) {
     description.textContent = offer.description;
   } else {
     description.remove();
   }
-  if (offer.features.length) {
+  if (offer.features?.length) {
     renderFeatures(features, offer.features);
   } else {
     featuresList.remove();
   }
-  renderPhotos(photosList, offer.photos);
+  if (offer.photos?.length) {
+    renderPhotos(photosList, offer.photos);
+  } else {
+    photosList.remove();
+  }
   avatar.src = author.avatar;
   return card;
 };
