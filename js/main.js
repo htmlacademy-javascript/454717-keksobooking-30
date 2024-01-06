@@ -38,4 +38,8 @@ document.addEventListener('formdata', async (event) => {
   }
 });
 
+document.addEventListener('formReseted', () => {
+  resetMap();
+});
+
 initMap();

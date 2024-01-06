@@ -32,7 +32,6 @@ const resetForm = () => {
 
 const setCoordinates = ({lat, lng}) => {
   form.address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  form.address.dispatchEvent(new Event('change', {bubbles: true}));
 };
 
 export { setSubmitDisabled, resetForm, activateForm, activateSlider, setCoordinates };

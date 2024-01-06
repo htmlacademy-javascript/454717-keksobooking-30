@@ -18,7 +18,6 @@ const price = {
 
 const messages = {
   required: 'Это обязательное поле',
-  address: 'Переместите маркер на карте, чтобы установить значение',
   capacity: 'Количество комнат не соответствует количеству гостей'
 };
 
@@ -27,11 +26,7 @@ const inputs = form.querySelectorAll('input');
 
 inputs.forEach((input) => {
   if (input.hasAttribute('required')) {
-    if (input === form.address) {
-      input.setAttribute('data-pristine-required-message', messages.address);
-    } else {
-      input.setAttribute('data-pristine-required-message', messages.required);
-    }
+    input.setAttribute('data-pristine-required-message', messages.required);
   }
 });
 
@@ -106,9 +101,6 @@ form.addEventListener('change', (event) => {
       break;
     case 'capacity':
       pristine.validate(form.rooms);
-      break;
-    case 'address':
-      pristine.validate(form.address);
       break;
     case 'price':
       pristine.validate(form.price);
