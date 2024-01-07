@@ -15,8 +15,4 @@ const deactivateForm = () => {
   });
 };
 
-form.addEventListener('reset', () => {
-  document.dispatchEvent (new Event('formReseted'));
-});
-
 export { activateForm, deactivateForm };

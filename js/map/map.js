@@ -103,6 +103,7 @@ const createMarkers = (announcements) => {
 const resetMap = () => {
   getMainPinMarker().setLatLng(startCoordinate);
   getMap().setView(startCoordinate, ZOOM);
+  getMap().closePopup();
   document.dispatchEvent(coordinateSelectionEvent);
 };
 

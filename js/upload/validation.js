@@ -93,8 +93,9 @@ const synchronizeTime = (selectNameFirst, selectNameSecond) => {
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'type':
-      form.price.placeholder = price.min[event.target.value];
       pristine.validate(form.price);
+      console.log(event.target.value);
+      form.price.placeholder = price.min[event.target.value];
       break;
     case 'rooms':
       pristine.validate(form.capacity);
