@@ -23,16 +23,17 @@ form.addEventListener('submit', (event) => {
 
 form.addEventListener('reset', () => {
   resetValidity();
+  resetSlider();
+  document.dispatchEvent (new Event('formReset'));
+  form.type.dispatchEvent(new Event('change', {bubbles: true}));
 });
 
 const resetForm = () => {
   resetButton.click();
-  resetSlider();
 };
 
 const setCoordinates = ({lat, lng}) => {
-  form.address.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  form.address.dispatchEvent(new Event('change', {bubbles: true}));
+  form.address.setAttribute('value', `${lat.toFixed(5)}, ${lng.toFixed(5)}`);
 };
 
 export { setSubmitDisabled, resetForm, activateForm, activateSlider, setCoordinates };

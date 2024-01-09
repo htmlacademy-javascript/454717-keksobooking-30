@@ -22,4 +22,22 @@ const deactivateFilters = () => {
   });
 };
 
-export { activateFilters, deactivateFilters };
+const getAnnouncementRank = (announcement) => {
+  const housingType = document.querySelector('#housing-type');
+  let rank = 0;
+  if (announcement.offer?.type === housingType.value) {
+    rank++;
+  }
+  return rank;
+};
+
+const compareAnnouncements = (announcementA, announcementB) => {
+  const rankA = getAnnouncementRank(announcementA);
+  const rankB = getAnnouncementRank(announcementB);
+
+  return rankB - rankA;
+};
+
+const applyFilters = (announcements, itemLimit = 10) => announcements.toSorted(compareAnnouncements).slice(0, itemLimit);
+
+export { activateFilters, deactivateFilters, applyFilters };
