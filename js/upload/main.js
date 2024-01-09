@@ -24,7 +24,7 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('reset', () => {
   resetValidity();
   resetSlider();
-  document.dispatchEvent (new Event('formReseted'));
+  document.dispatchEvent (new Event('formReset'));
   form.type.dispatchEvent(new Event('change', {bubbles: true}));
 });
 

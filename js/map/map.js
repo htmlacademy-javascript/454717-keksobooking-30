@@ -77,6 +77,8 @@ const getIcon = () => {
   return iconObject;
 };
 
+const markerGroup = leaflet.layerGroup().addTo(getMap());
+
 const createMarker = (point, data) => {
   const {lat, lng} = point;
   const marker = leaflet.marker(
@@ -90,11 +92,12 @@ const createMarker = (point, data) => {
   );
 
   marker
-    .addTo(getMap())
+    .addTo(markerGroup)
     .bindPopup(createCard(data));
 };
 
 const createMarkers = (announcements) => {
+  markerGroup.clearLayers();
   announcements.forEach((announcement) => {
     createMarker(announcement.location, announcement);
   });

@@ -1,5 +1,5 @@
 import { activateForm, activateSlider, setCoordinates, resetForm, setSubmitDisabled } from './upload/main';
-import { initMap, activateMap, resetMap } from './map/main';
+import { initMap, activateMap, resetMap, activateFilters } from './map/main';
 import { request } from './api';
 import { renderStatus } from './status';
 
@@ -10,12 +10,13 @@ const onDocumentMapLoaded = async () => {
   if (!isMapLoaded) {
     try {
       activateMap(await request(`${BASE_URL}/data`));
+      activateFilters();
+      activateForm();
+      activateSlider();
+      isMapLoaded = true;
     } catch {
       renderStatus('data-error');
     }
-    activateForm();
-    activateSlider();
-    isMapLoaded = true;
   }
 };
 
@@ -38,7 +39,7 @@ document.addEventListener('formdata', async (event) => {
   }
 });
 
-document.addEventListener('formReseted', () => {
+document.addEventListener('formReset', () => {
   resetMap();
 });
 
