@@ -5,11 +5,11 @@ const filtersForm = document.querySelector('.map__filters');
 
 deactivateFilters();
 
-const activateMap = (data) => {
+const activateMap = (data, itemLimit = 10) => {
   setMainPinMarker();
-  createMarkers(data);
+  createMarkers(data.slice(0, itemLimit));
   filtersForm.addEventListener('change', () => {
-    createMarkers(applyFilters(data));
+    createMarkers(applyFilters(data, itemLimit));
   });
 };
 
