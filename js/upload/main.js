@@ -1,5 +1,5 @@
 import { activateForm, deactivateForm } from './form.js';
-import { checkValidity, resetValidity } from './validation';
+import { checkValidity, resetValidity } from './validation.js';
 import { activateSlider, deactivateSlider, resetSlider } from './price.js';
 
 deactivateForm();

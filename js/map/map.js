@@ -1,5 +1,5 @@
-import { leaflet } from './leaflet';
-import { createCard } from './card';
+import { leaflet } from './leaflet.js';
+import { createCard } from './card.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
