@@ -7,7 +7,6 @@ deactivateSlider();
 
 const form = document.querySelector('.ad-form');
 const submitButton = document.querySelector('.ad-form__submit');
-const resetButton = document.querySelector('.ad-form__reset');
 
 const setSubmitDisabled = (flag) => {
   submitButton.disabled = flag;
@@ -21,18 +20,13 @@ form.addEventListener('submit', (event) => {
   }
 });
 
-form.addEventListener('reset', () => {
-  resetValidity();
-  resetSlider();
-  document.dispatchEvent (new Event('formReset'));
-});
-
-const resetForm = () => {
-  resetButton.click();
-};
-
 const setCoordinates = ({lat, lng}) => {
   form.address.setAttribute('value', `${lat.toFixed(5)}, ${lng.toFixed(5)}`);
 };
 
-export { setSubmitDisabled, resetForm, activateForm, activateSlider, setCoordinates };
+const resetUpload = () => {
+  resetValidity();
+  resetSlider();
+};
+
+export { setSubmitDisabled, activateForm, activateSlider, setCoordinates, resetUpload };

@@ -1,4 +1,4 @@
-import { activateFilters, deactivateFilters, applyFilters } from './filters.js';
+import { activateFilters, deactivateFilters, applyFilters, resetFilters } from './filters.js';
 import { initMap, createMarkers, setMainPinMarker, resetMap } from './map.js';
 
 const filtersForm = document.querySelector('.map__filters');
@@ -13,4 +13,4 @@ const activateMap = (data, reduceFrequency, itemLimit = 10) => {
   }));
 };
 
-export { initMap, activateMap, resetMap, activateFilters };
+export { initMap, activateMap, resetMap, activateFilters, resetFilters };

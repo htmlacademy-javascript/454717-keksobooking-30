@@ -46,4 +46,8 @@ const applyFilters = (announcements, itemLimit) => announcements
   .filter((announcement) => filterFeatures(announcement))
   .slice(0, itemLimit);
 
-export { activateFilters, deactivateFilters, applyFilters };
+const resetFilters = () => {
+  form.reset();
+};
+
+export { activateFilters, deactivateFilters, applyFilters, resetFilters };
