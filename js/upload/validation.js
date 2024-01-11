@@ -1,5 +1,10 @@
 import '../../vendor/pristine/pristine.min.js';
 
+const PHOTO = {
+  defaultSrc: 'img/muffin-grey.svg',
+  size: '70',
+};
+
 const TITLE_LENGTH = {
   min: 30,
   max: 100
@@ -23,6 +28,8 @@ const messages = {
 
 const form = document.querySelector('.ad-form');
 const inputs = form.querySelectorAll('input');
+const avatarPreview = form.querySelector('.ad-form-header__preview img');
+const photoPreviewContainer = form.querySelector('.ad-form__photo');
 
 inputs.forEach((input) => {
   if (input.hasAttribute('required')) {
@@ -90,11 +97,30 @@ const synchronizeTime = (selectNameFirst, selectNameSecond) => {
   form[selectNameFirst].value = form[selectNameSecond].value;
 };
 
+const renderFile = (file, preview) => {
+  if (file.type.startsWith('image')) {
+    preview.src = URL.createObjectURL(file);
+  }
+};
+
+const createImage = () => {
+  const photoPreview = document.createElement('img');
+  photoPreview.src = '';
+  photoPreview.width = PHOTO.size;
+  photoPreview.height = PHOTO.size;
+  photoPreviewContainer.appendChild(photoPreview);
+  return photoPreview;
+};
+
+const resetImages = () => {
+  photoPreviewContainer.innerHTML = '';
+  avatarPreview.src = PHOTO.defaultSrc;
+};
+
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'type':
       pristine.validate(form.price);
-      console.log(event.target.value);
       form.price.placeholder = price.min[event.target.value];
       break;
     case 'rooms':
@@ -112,10 +138,20 @@ form.addEventListener('change', (event) => {
     case 'timeout':
       synchronizeTime('timein', 'timeout');
       break;
+    case 'avatar':
+      pristine.validate(form.avatar);
+      renderFile(event.target.files[0], avatarPreview);
+      break;
+    case 'images':
+      renderFile(event.target.files[0], createImage());
+      break;
   }
 });
 
 const checkValidity = () => pristine.validate();
-const resetValidity = () => pristine.reset();
+const resetValidity = () => {
+  resetImages();
+  pristine.reset();
+};
 
 export { checkValidity, resetValidity };
