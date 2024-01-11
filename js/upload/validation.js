@@ -1,5 +1,10 @@
 import '../../vendor/pristine/pristine.min.js';
 
+const PHOTO = {
+  defaultSrc: 'img/muffin-grey.svg',
+  size: '70',
+};
+
 const TITLE_LENGTH = {
   min: 30,
   max: 100
@@ -18,20 +23,17 @@ const price = {
 
 const messages = {
   required: 'Это обязательное поле',
-  address: 'Переместите маркер на карте, чтобы установить значение',
   capacity: 'Количество комнат не соответствует количеству гостей'
 };
 
 const form = document.querySelector('.ad-form');
 const inputs = form.querySelectorAll('input');
+const avatarPreview = form.querySelector('.ad-form-header__preview img');
+const photoPreviewContainer = form.querySelector('.ad-form__photo');
 
 inputs.forEach((input) => {
   if (input.hasAttribute('required')) {
-    if (input === form.address) {
-      input.setAttribute('data-pristine-required-message', messages.address);
-    } else {
-      input.setAttribute('data-pristine-required-message', messages.required);
-    }
+    input.setAttribute('data-pristine-required-message', messages.required);
   }
 });
 
@@ -95,6 +97,26 @@ const synchronizeTime = (selectNameFirst, selectNameSecond) => {
   form[selectNameFirst].value = form[selectNameSecond].value;
 };
 
+const renderFile = (file, preview) => {
+  if (file.type.startsWith('image')) {
+    preview.src = URL.createObjectURL(file);
+  }
+};
+
+const createImage = () => {
+  const photoPreview = document.createElement('img');
+  photoPreview.src = '';
+  photoPreview.width = PHOTO.size;
+  photoPreview.height = PHOTO.size;
+  photoPreviewContainer.appendChild(photoPreview);
+  return photoPreview;
+};
+
+const resetImages = () => {
+  photoPreviewContainer.innerHTML = '';
+  avatarPreview.src = PHOTO.defaultSrc;
+};
+
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'type':
@@ -107,9 +129,6 @@ form.addEventListener('change', (event) => {
     case 'capacity':
       pristine.validate(form.rooms);
       break;
-    case 'address':
-      pristine.validate(form.address);
-      break;
     case 'price':
       pristine.validate(form.price);
       break;
@@ -119,10 +138,22 @@ form.addEventListener('change', (event) => {
     case 'timeout':
       synchronizeTime('timein', 'timeout');
       break;
+    case 'avatar':
+      pristine.validate(form.avatar);
+      renderFile(event.target.files[0], avatarPreview);
+      break;
+    case 'images':
+      renderFile(event.target.files[0], createImage());
+      break;
   }
 });
 
 const checkValidity = () => pristine.validate();
-const resetValidity = () => pristine.reset();
+
+const resetValidity = () => {
+  form.price.placeholder = price.min['flat'];
+  resetImages();
+  pristine.reset();
+};
 
 export { checkValidity, resetValidity };

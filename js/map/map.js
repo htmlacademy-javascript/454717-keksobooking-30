@@ -1,5 +1,5 @@
-import { leaflet } from './leaflet';
-import { createCard } from './card';
+import { leaflet } from './leaflet.js';
+import { createCard } from './card.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -77,6 +77,8 @@ const getIcon = () => {
   return iconObject;
 };
 
+const markerGroup = leaflet.layerGroup().addTo(getMap());
+
 const createMarker = (point, data) => {
   const {lat, lng} = point;
   const marker = leaflet.marker(
@@ -90,11 +92,12 @@ const createMarker = (point, data) => {
   );
 
   marker
-    .addTo(getMap())
+    .addTo(markerGroup)
     .bindPopup(createCard(data));
 };
 
 const createMarkers = (announcements) => {
+  markerGroup.clearLayers();
   announcements.forEach((announcement) => {
     createMarker(announcement.location, announcement);
   });
@@ -103,6 +106,7 @@ const createMarkers = (announcements) => {
 const resetMap = () => {
   getMainPinMarker().setLatLng(startCoordinate);
   getMap().setView(startCoordinate, ZOOM);
+  getMap().closePopup();
   document.dispatchEvent(coordinateSelectionEvent);
 };
 
