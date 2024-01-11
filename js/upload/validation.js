@@ -148,6 +148,10 @@ form.addEventListener('change', (event) => {
   }
 });
 
+document.addEventListener('formReset', () => {
+  form.price.placeholder = price.min['flat'];
+});
+
 const checkValidity = () => pristine.validate();
 const resetValidity = () => {
   resetImages();
