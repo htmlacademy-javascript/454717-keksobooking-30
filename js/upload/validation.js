@@ -120,8 +120,8 @@ const resetImages = () => {
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'type':
-      pristine.validate(form.price);
       form.price.placeholder = price.min[event.target.value];
+      pristine.validate(form.price);
       break;
     case 'rooms':
       pristine.validate(form.capacity);
