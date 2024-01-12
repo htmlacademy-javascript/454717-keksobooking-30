@@ -10,6 +10,8 @@ const TITLE_LENGTH = {
   max: 100
 };
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
+
 const price = {
   max: 100000,
   min: {
@@ -23,7 +25,8 @@ const price = {
 
 const messages = {
   required: 'Это обязательное поле',
-  capacity: 'Количество комнат не соответствует количеству гостей'
+  capacity: 'Количество комнат не соответствует количеству гостей',
+  avatar: 'Некорректный формат изображения'
 };
 
 const form = document.querySelector('.ad-form');
@@ -38,10 +41,21 @@ inputs.forEach((input) => {
 });
 
 const pristine = new Pristine(form, {
-  classTo: 'ad-form__element',
-  errorTextParent: 'ad-form__element',
+  classTo: 'ad-form__validator',
+  errorTextParent: 'ad-form__validator',
   errorClass: 'ad-form__element--invalid',
 });
+
+const validateAvatar = (file) => {
+  file = file.toLowerCase();
+  return FILE_TYPES.some((type) => file.endsWith(type));
+};
+
+pristine.addValidator (
+  form.avatar,
+  validateAvatar,
+  messages.avatar
+);
 
 const validateLength = (text) => text.length >= TITLE_LENGTH.min && text.length <= TITLE_LENGTH.max;
 
@@ -119,6 +133,10 @@ const resetImages = () => {
 
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
+    case 'avatar':
+      pristine.validate(form.avatar);
+      renderFile(event.target.files[0], avatarPreview);
+      break;
     case 'type':
       form.price.placeholder = price.min[event.target.value];
       pristine.validate(form.price);
@@ -137,10 +155,6 @@ form.addEventListener('change', (event) => {
       break;
     case 'timeout':
       synchronizeTime('timein', 'timeout');
-      break;
-    case 'avatar':
-      pristine.validate(form.avatar);
-      renderFile(event.target.files[0], avatarPreview);
       break;
     case 'images':
       renderFile(event.target.files[0], createImage());
