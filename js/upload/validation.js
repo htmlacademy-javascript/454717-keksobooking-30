@@ -1,16 +1,16 @@
 import '../../vendor/pristine/pristine.min.js';
 
-const PHOTO = {
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
+
+const photoConfig = {
   defaultSrc: 'img/muffin-grey.svg',
   size: '70',
 };
 
-const TITLE_LENGTH = {
+const titleLength = {
   min: 30,
   max: 100
 };
-
-const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
 
 const price = {
   max: 100000,
@@ -66,12 +66,12 @@ pristine.addValidator (
   messages.photo
 );
 
-const validateLength = (text) => text.length >= TITLE_LENGTH.min && text.length <= TITLE_LENGTH.max;
+const validateLength = (text) => text.length >= titleLength.min && text.length <= titleLength.max;
 
 pristine.addValidator (
   form.title,
   validateLength,
-  `Требуемая длина сообщения от ${TITLE_LENGTH.min} до ${TITLE_LENGTH.max} символов`
+  `Требуемая длина сообщения от ${titleLength.min} до ${titleLength.max} символов`
 );
 
 pristine.addValidator (
@@ -120,7 +120,7 @@ const synchronizeTime = (selectNameFirst, selectNameSecond) => {
   form[selectNameFirst].value = form[selectNameSecond].value;
 };
 
-const renderFile = (file, preview) => {
+const renderPreview = (file, preview) => {
   if (file.type.startsWith('image')) {
     preview.src = URL.createObjectURL(file);
   }
@@ -129,23 +129,22 @@ const renderFile = (file, preview) => {
 const createImage = () => {
   photoPreviewContainer.innerHTML = '';
   const photoPreview = document.createElement('img');
-  photoPreview.src = '';
-  photoPreview.width = PHOTO.size;
-  photoPreview.height = PHOTO.size;
+  photoPreview.width = photoConfig.size;
+  photoPreview.height = photoConfig.size;
   photoPreviewContainer.appendChild(photoPreview);
   return photoPreview;
 };
 
 const resetImages = () => {
   photoPreviewContainer.innerHTML = '';
-  avatarPreview.src = PHOTO.defaultSrc;
+  avatarPreview.src = photoConfig.defaultSrc;
 };
 
 form.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'avatar':
       pristine.validate(form.avatar);
-      renderFile(event.target.files[0], avatarPreview);
+      renderPreview(event.target.files[0], avatarPreview);
       break;
     case 'type':
       form.price.placeholder = price.min[event.target.value];
@@ -167,8 +166,8 @@ form.addEventListener('change', (event) => {
       synchronizeTime('timein', 'timeout');
       break;
     case 'images':
+      renderPreview(event.target.files[0], createImage());
       pristine.validate(form.images);
-      renderFile(event.target.files[0], createImage());
       break;
   }
 });

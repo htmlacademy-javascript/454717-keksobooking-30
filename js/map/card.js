@@ -1,4 +1,4 @@
-const TYPES = {
+const types = {
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
   'house': 'Дом',
@@ -44,7 +44,7 @@ const createCard = (properties) => {
   title.textContent = offer.title;
   address.textContent = offer.address;
   price.textContent = `${offer.price} ₽/ночь`;
-  type.textContent = TYPES[offer.type];
+  type.textContent = types[offer.type];
   capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   if (offer.description?.length) {

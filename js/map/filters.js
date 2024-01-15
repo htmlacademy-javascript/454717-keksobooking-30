@@ -1,10 +1,10 @@
 const form = document.querySelector('.map__filters');
 const fieldsets = form.querySelectorAll('fieldset');
 const selects = form.querySelectorAll('select');
-const filterType = form.querySelector('#housing-type');
-const filterRooms = form.querySelector('#housing-rooms');
-const filterGuests = form.querySelector('#housing-guests');
-const filterPrice = form.querySelector('#housing-price');
+const typeFilter = form.querySelector('#housing-type');
+const roomsFilter = form.querySelector('#housing-rooms');
+const guestsFilter = form.querySelector('#housing-guests');
+const priceFilter = form.querySelector('#housing-price');
 
 const PRICE = {
   'any': {min: 0, max: 100000},
@@ -39,10 +39,10 @@ const filterFeatures = (announcement) => {
 };
 
 const applyFilters = (announcements, itemLimit) => announcements
-  .filter((announcement) => filterType[0].selected || announcement.offer?.type === filterType.value)
-  .filter((announcement) => filterRooms[0].selected || announcement.offer?.rooms === Number(filterRooms.value))
-  .filter((announcement) => filterGuests[0].selected || announcement.offer?.guests === Number(filterGuests.value))
-  .filter((announcement) => filterPrice[0].selected || (announcement.offer?.price <= PRICE[filterPrice.value].max && announcement.offer?.price > PRICE[filterPrice.value].min))
+  .filter((announcement) => typeFilter[0].selected || announcement.offer?.type === typeFilter.value)
+  .filter((announcement) => roomsFilter[0].selected || announcement.offer?.rooms === Number(roomsFilter.value))
+  .filter((announcement) => guestsFilter[0].selected || announcement.offer?.guests === Number(guestsFilter.value))
+  .filter((announcement) => priceFilter[0].selected || (announcement.offer?.price <= PRICE[priceFilter.value].max && announcement.offer?.price > PRICE[priceFilter.value].min))
   .filter((announcement) => filterFeatures(announcement))
   .slice(0, itemLimit);
 
