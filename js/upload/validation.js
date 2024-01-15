@@ -26,7 +26,7 @@ const price = {
 const messages = {
   required: 'Это обязательное поле',
   capacity: 'Количество комнат не соответствует количеству гостей',
-  avatar: 'Некорректный формат изображения'
+  photo: 'Некорректный формат изображения'
 };
 
 const form = document.querySelector('.ad-form');
@@ -46,15 +46,24 @@ const pristine = new Pristine(form, {
   errorClass: 'ad-form__element--invalid',
 });
 
-const validateAvatar = (file) => {
+const validatePhoto = (file) => {
+  if (!file) {
+    return true;
+  }
   file = file.toLowerCase();
   return FILE_TYPES.some((type) => file.endsWith(type));
 };
 
 pristine.addValidator (
   form.avatar,
-  validateAvatar,
-  messages.avatar
+  validatePhoto,
+  messages.photo
+);
+
+pristine.addValidator (
+  form.images,
+  validatePhoto,
+  messages.photo
 );
 
 const validateLength = (text) => text.length >= TITLE_LENGTH.min && text.length <= TITLE_LENGTH.max;
@@ -118,6 +127,7 @@ const renderFile = (file, preview) => {
 };
 
 const createImage = () => {
+  photoPreviewContainer.innerHTML = '';
   const photoPreview = document.createElement('img');
   photoPreview.src = '';
   photoPreview.width = PHOTO.size;
@@ -157,6 +167,7 @@ form.addEventListener('change', (event) => {
       synchronizeTime('timein', 'timeout');
       break;
     case 'images':
+      pristine.validate(form.images);
       renderFile(event.target.files[0], createImage());
       break;
   }
