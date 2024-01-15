@@ -1,13 +1,17 @@
-import { activateFilters, deactivateFilters, applyFilters, resetFilters } from './filters.js';
+import { unlockFilters, lockFilters, applyFilters, resetFilters } from './filters.js';
 import { initMap, createMarkers, setMainPinMarker, resetMap } from './map.js';
 
 const ANNOUNCEMENTS_LIMIT = 10;
 const filtersForm = document.querySelector('.map__filters');
 
-deactivateFilters();
+lockFilters();
 
-const activateMap = (announcements, reduceFrequency) => {
+const activateMap = () => {
   setMainPinMarker();
+};
+
+const activateFilters = (announcements, reduceFrequency) => {
+  unlockFilters();
   createMarkers(announcements.slice(0, ANNOUNCEMENTS_LIMIT));
   filtersForm.addEventListener('change', reduceFrequency(() => {
     createMarkers(applyFilters(announcements, ANNOUNCEMENTS_LIMIT));

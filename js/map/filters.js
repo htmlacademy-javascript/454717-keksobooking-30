@@ -13,7 +13,7 @@ const PRICE = {
   'hight': {min: 50000, max: 100000},
 };
 
-const activateFilters = () => {
+const unlockFilters = () => {
   form.classList.remove('ad-form--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
@@ -23,7 +23,7 @@ const activateFilters = () => {
   });
 };
 
-const deactivateFilters = () => {
+const lockFilters = () => {
   form.classList.add('ad-form--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
@@ -50,4 +50,4 @@ const resetFilters = () => {
   form.reset();
 };
 
-export { activateFilters, deactivateFilters, applyFilters, resetFilters };
+export { unlockFilters, lockFilters, applyFilters, resetFilters };

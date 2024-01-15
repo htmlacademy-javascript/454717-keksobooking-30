@@ -8,19 +8,15 @@ const BASE_URL = 'https://30.javascript.pages.academy/keksobooking';
 const resetButton = document.querySelector('.ad-form__reset');
 
 let announcements;
-let isMapLoaded = false;
 const onDocumentMapLoaded = async () => {
-  if (!isMapLoaded) {
-    try {
-      announcements = await request(`${BASE_URL}/data`);
-      activateMap(announcements, throttle);
-      activateFilters();
-      activateForm();
-      activateSlider();
-      isMapLoaded = true;
-    } catch {
-      renderStatus('data-error');
-    }
+  activateMap();
+  activateForm();
+  activateSlider();
+  try {
+    announcements = await request(`${BASE_URL}/data`);
+    activateFilters(announcements, throttle);
+  } catch {
+    renderStatus('data-error');
   }
 };
 

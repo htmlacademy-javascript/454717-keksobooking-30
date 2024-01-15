@@ -27,12 +27,12 @@ const getMap = () => {
 
 const initMap = () => {
   const map = getMap();
-  map.setView(startCoordinate, ZOOM);
+  map.on('load', () => {
+    document.dispatchEvent(new Event('mapLoaded'));
+  }).setView(startCoordinate, ZOOM);
 
   leaflet.tileLayer(TILE_LAYER, {
     attribution: COPYRIGHT
-  }).on('load', () => {
-    document.dispatchEvent(new Event('mapLoaded'));
   }).addTo(map);
 };
 
