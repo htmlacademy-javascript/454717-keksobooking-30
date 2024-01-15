@@ -1,11 +1,11 @@
 import '../../vendor/nouislider/nouislider.js';
 import '../../vendor/nouislider/nouislider.css';
 
-const slider = document.querySelector('.ad-form__slider');
-const inputPrice = document.querySelector('#price');
-
 const MIN_PRICE = 0;
 const MAX_PRICE = 100000;
+
+const slider = document.querySelector('.ad-form__slider');
+const inputPrice = document.querySelector('#price');
 
 noUiSlider.create(slider, {
   range: {

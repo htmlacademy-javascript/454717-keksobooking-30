@@ -3,8 +3,8 @@ import { createCard } from './card.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const ZOOM = 13;
 
-const ZOOM = 12;
 const iconConfig = {
   url: {main: '../img/main-pin.svg', normal: '../img/pin.svg'},
   width: {main: 52, normal: 40},
@@ -27,12 +27,12 @@ const getMap = () => {
 
 const initMap = () => {
   const map = getMap();
-  map.setView(startCoordinate, ZOOM);
+  map.on('load', () => {
+    document.dispatchEvent(new Event('mapLoaded'));
+  }).setView(startCoordinate, ZOOM);
 
   leaflet.tileLayer(TILE_LAYER, {
     attribution: COPYRIGHT
-  }).on('load', () => {
-    document.dispatchEvent(new Event('mapLoaded'));
   }).addTo(map);
 };
 

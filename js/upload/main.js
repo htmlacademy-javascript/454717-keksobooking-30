@@ -1,4 +1,4 @@
-import { activateForm, deactivateForm } from './form.js';
+import { activateForm, deactivateForm } from './activation.js';
 import { checkValidity, resetValidity } from './validation.js';
 import { activateSlider, deactivateSlider, resetSlider } from './price.js';
 

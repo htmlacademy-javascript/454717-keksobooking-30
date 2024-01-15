@@ -1,5 +1,5 @@
 import { activateForm, activateSlider, setCoordinates, setSubmitDisabled, resetUpload } from './upload/main.js';
-import { initMap, activateMap, resetMap, activateFilters, resetFilters } from './map/main.js';
+import { initMap, activateMap, activateFilters, resetMapWithFilters } from './map/main.js';
 import { request } from './api.js';
 import { renderStatus } from './status.js';
 import { throttle } from './utilities.js';
@@ -7,18 +7,16 @@ import { throttle } from './utilities.js';
 const BASE_URL = 'https://30.javascript.pages.academy/keksobooking';
 const resetButton = document.querySelector('.ad-form__reset');
 
-let isMapLoaded = false;
+let announcements;
 const onDocumentMapLoaded = async () => {
-  if (!isMapLoaded) {
-    try {
-      activateMap(await request(`${BASE_URL}/data`), throttle);
-      activateFilters();
-      activateForm();
-      activateSlider();
-      isMapLoaded = true;
-    } catch {
-      renderStatus('data-error');
-    }
+  activateMap();
+  activateForm();
+  activateSlider();
+  try {
+    announcements = await request(`${BASE_URL}/data`);
+    activateFilters(announcements, throttle);
+  } catch {
+    renderStatus('data-error');
   }
 };
 
@@ -29,8 +27,7 @@ document.addEventListener('coordinateSelected', (event) => {
 
 const onResetButtonClick = () => {
   resetButton.click();
-  resetMap();
-  resetFilters();
+  resetMapWithFilters(announcements);
   resetUpload();
 };
 
