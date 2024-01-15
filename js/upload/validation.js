@@ -121,7 +121,7 @@ const synchronizeTime = (selectNameFirst, selectNameSecond) => {
 };
 
 const renderPreview = (file, preview) => {
-  if (file.type.startsWith('image')) {
+  if (file?.type.startsWith('image')) {
     preview.src = URL.createObjectURL(file);
   }
 };
