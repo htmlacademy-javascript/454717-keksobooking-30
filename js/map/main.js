@@ -13,9 +13,11 @@ const activateMap = () => {
 const activateFilters = (announcements, reduceFrequency) => {
   unlockFilters();
   createMarkers(announcements.slice(0, ANNOUNCEMENTS_LIMIT));
-  filtersForm.addEventListener('change', reduceFrequency(() => {
+
+  const onFiltersFormChange = reduceFrequency(() => {
     createMarkers(applyFilters(announcements, ANNOUNCEMENTS_LIMIT));
-  }));
+  });
+  filtersForm.addEventListener('change', onFiltersFormChange);
 };
 
 const resetMapWithFilters = (announcements) => {
