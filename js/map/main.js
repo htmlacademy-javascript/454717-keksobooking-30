@@ -1,10 +1,8 @@
-import { unlockFilters, lockFilters, applyFilters, resetFilters } from './filters.js';
+import { unlockFilters, applyFilters, resetFilters } from './filters.js';
 import { initMap, createMarkers, setMainPinMarker, resetMap } from './map.js';
 
 const ANNOUNCEMENTS_LIMIT = 10;
 const filtersForm = document.querySelector('.map__filters');
-
-lockFilters();
 
 const activateMap = () => {
   setMainPinMarker();
