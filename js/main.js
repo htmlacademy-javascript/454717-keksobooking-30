@@ -1,4 +1,4 @@
-import { activateForm, activateSlider, setCoordinates, setSubmitDisabled, resetUpload } from './upload/main.js';
+import { activateForm, setCoordinates, setSubmitDisabled, resetUpload } from './upload/main.js';
 import { initMap, activateMap, activateFilters, resetMapWithFilters } from './map/main.js';
 import { request } from './api.js';
 import { renderStatus } from './status.js';
@@ -11,7 +11,6 @@ let announcements;
 const onDocumentMapLoaded = async () => {
   activateMap();
   activateForm();
-  activateSlider();
   try {
     announcements = await request(`${BASE_URL}/data`);
     activateFilters(announcements, throttle);
