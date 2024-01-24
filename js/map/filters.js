@@ -23,16 +23,6 @@ const unlockFilters = () => {
   });
 };
 
-const lockFilters = () => {
-  form.classList.add('ad-form--disabled');
-  fieldsets.forEach((fieldset) => {
-    fieldset.disabled = true;
-  });
-  selects.forEach((select) => {
-    select.disabled = true;
-  });
-};
-
 const filterFeatures = (announcement) => {
   const selectedFeatures = Array.from(form.querySelectorAll('input[name ="features"]:checked'), (input) => input.value);
   return selectedFeatures.every((feature) => announcement.offer.features?.includes(feature));
@@ -50,4 +40,4 @@ const resetFilters = () => {
   form.reset();
 };
 
-export { unlockFilters, lockFilters, applyFilters, resetFilters };
+export { unlockFilters, applyFilters, resetFilters };
